@@ -8,8 +8,9 @@ const app = express();
 
 app.get('/', (req, res) => {
   // console.log();
-  res.sendFile('../Site/index.html', {root: __dirname});
-})
+  // res.sendFile(`Z:/WebPaint/Site/index.css`);
+  res.sendFile(`Z:/WebPaint/Site/index.html`);
+  })
 
 app.listen(8080, function() {
   console.log('listening on 8080');

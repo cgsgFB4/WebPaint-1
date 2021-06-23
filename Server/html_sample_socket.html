@@ -1,0 +1,29 @@
+var socket = io.connect('http://localhost:3038/',
+		{
+			'reconnectionDelay': 10 // defaults to 500
+		}
+	);
+
+	
+
+	socket.on('connect_error', function(){
+	   	console.log('Connection Failed');
+	    //Если более 5 попыток переподключения, то отключаем подключение
+	    connect_error_count++;
+	    if (connect_error_count>=5){
+	    	socket.disconnect();
+	    	console.log("stop reconection");
+	    }
+	});
+	
+	
+	
+	socket.on('reconnect', function(){
+	    console.log('reconnect');
+		connect_error_count=0;
+	});
+	
+	
+	socket.on('news', function (data) {
+	  console.log(data);
+	});

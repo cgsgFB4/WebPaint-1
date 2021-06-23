@@ -5,10 +5,124 @@
 
 <html>
 <head>
-  <title>Paint online image editor</title>
+  <title>OPIE - Online Paint Image Editor</title>
+  <!--  <link rel="stylesheet" type="text/css" href="index.css"-->
 </head>
 
 <body>
-  <canvas></canvas>
+  <div id="container">
+    <canvas id='Plane' style="border:1px solid #d3d3d3;"  onmousedown="mouseDown(event)" onmouseup="mouseUp()" 
+        onmousemove="mouseMove(event)" onmousewheel="mouseWheel(event)"></canvas>
+    <menu id="controls">
+      <button onclick="Color1()">Black</button>
+      <button onclick="Color2()">White</button>
+      <button onclick="Color3()">Green</button>
+      <button onclick="Color4()">Red</button>
+      <button onclick="Color5()">Blue</button>
+      <button onclick="Color6()">Yellow</button>
+      <button onclick="Color7()">Brown</button> 
+      <input type="range" min="1" max="100" step="1" value="1" id="Width">  
+    </menu>
+  </div> 
+  <!--<canvas id="Plane" border-radius="50px" outline-color="grey" top="0" bottom="100" right="0" left="0"></canvas>-->
+  <!--
+    <button>Buffer Draw</button>
+  -->
+  <script>
+  	let canvas = document.getElementById("Plane");
+		let ctx = canvas.getContext('2d');
+    let isdrawing = false;
+    let wigth = 1;
+    let basedeltaX = 0, basedeltaY = 0; 
+
+    /* draw circle function */
+    function drawCircle(ctx, x, y, radius, fill, stroke, strokeWidth) {
+      ctx.beginPath()
+      ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
+      if (fill) {
+        ctx.fillStyle = fill;
+        ctx.fill();
+      }
+      if (stroke) {
+        ctx.lineWidth = strokeWidth;
+        ctx.strokeStyle = stroke;
+        ctx.stroke();
+      }
+    } 
+
+    /* mouceDown canvas function */
+    function mouseDown(event) {
+      var x = event.pageX - event.target.offsetLeft,
+        y = event.pageY - event.target.offsetTop;
+      ctx.lineWidth = parseInt(document.getElementById("Width").value);
+      if (event.button == 0) {
+        ctx.beginPath()
+        isdrawing = true;
+        ctx.moveTo(x, y);
+     }
+    }
+
+    /* mouceMove function */
+    function mouseMove(event) {
+      var x = event.pageX - event.target.offsetLeft,
+        y = event.pageY - event.target.offsetTop;
+      if (isdrawing && event.button == 0) {
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        // ctx.moveTo(x, y);
+      }
+    }
+
+    /* mouceUp function */
+    function mouseUp() {
+      if (isdrawing && event.button == 0) {
+        ctx.closePath();
+        isdrawing = false;
+      }
+    }
+
+    /* set pen color functions */
+    function Color1() {
+      ctx.strokeStyle = "black";
+    }
+    
+    function Color2() {
+      ctx.strokeStyle = "white";
+    }
+    
+    function Color3() {
+      ctx.strokeStyle = "green";
+    }
+    
+    function Color4() {
+      ctx.strokeStyle = "red";
+    }
+    
+    function Color5() {
+      ctx.strokeStyle = "blue";
+    }
+    
+    function Color6() {
+      ctx.strokeStyle = "yellow";
+    }
+    
+    function Color7() {
+      ctx.strokeStyle = "#CF6400";
+    }
+    
+    ctx.lineWidth = 1;
+    canvas.width = document.documentElement.clientWidth;
+    canvas.height = document.documentElement.clientHeight;
+    /*ctx.beginPath();
+    ctx.moveTo(40, 140);
+    ctx.lineTo(20, 40);
+    ctx.lineTo(60, 100);
+    ctx.lineTo(80, 20);
+    ctx.lineTo(100, 100);
+    ctx.lineTo(140, 40);
+    ctx.lineTo(120, 140);
+    ctx.stroke(); // *22 !!!!! to end drawing
+    */
+  </script>
 </body>
 </html>
