@@ -1,0 +1,158 @@
+<!--
+  (c) copyright CGSG summer practice 2021
+  web paint by AC1 and FB4
+-->
+
+<html>
+<head>
+  <title>OPIE - Online Paint Image Editor</title>
+  <!--  <link rel="stylesheet" type="text/css" href="index.css"-->
+</head>
+
+<body>
+  <div id="container">
+    <canvas id='Plane' style="border:1px solid #d3d3d3;"  onmousedown="mouseDown(event)" onmouseup="mouseUp()" 
+        onmousemove="mouseMove(event)" onmousewheel="mouseWheel(event)"></canvas>
+    <menu id="controls">
+      <button onclick="Color1()">Black</button>
+      <button onclick="Color2()">White</button>
+      <button onclick="Color3()">Green</button>
+      <button onclick="Color4()">Red</button>
+      <button onclick="Color5()">Blue</button>
+      <button onclick="Color6()">Yellow</button>
+      <button onclick="Color7()">Brown</button> 
+      <input type="range" min="1" max="100" step="1" value="1" id="Width">  
+    </menu>
+  </div> 
+  <!--<canvas id="Plane" border-radius="50px" outline-color="grey" top="0" bottom="100" right="0" left="0"></canvas>-->
+  <!--
+    <button>Buffer Draw</button>
+  -->
+
+  
+  <!-- end of first script -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io();
+    let canvas = document.getElementById("Plane");
+		let ctx = canvas.getContext('2d');
+    canvas.width = document.documentElement.clientWidth;
+    canvas.height = document.documentElement.clientHeight;
+    let globW = ctx.canvas.clientWidth;
+    let globH = ctx.canvas.clientHeight;
+    var imgData = ctx.getImageData(0, 0, globW, globH);
+    let img = ctx.createImageData(1, 1);
+    let globX = 0, globY = 0;
+    let globColor = {r:0, g:0, b:0, a:255};
+    let isdrawing = false;
+    let lastX = 0, lastY = 0;
+
+    const numberToHex = number => {
+      const HEX = 16;
+      return Number(number).toString(HEX).toUpperCase()
+    }
+
+    // changeColotr - other function
+  
+    /* Put pixel to screen function */
+    function setPixel(x, y) {
+      img.data[0] = globColor.r;
+      img.data[1] = globColor.g;
+      img.data[2] = globColor.b;
+      img.data[3] = globColor.a;
+      ctx.putImageData(img, x, y);
+    }
+
+    /* draw line to canvas function */
+    function drawLine(x0, y0, x1, y1) {
+      var dx = Math.abs(x1 - x0);
+      var dy = Math.abs(y1 - y0);
+      var sx = (x0 < x1) ? 1 : -1;
+      var sy = (y0 < y1) ? 1 : -1;
+      var err = dx - dy;
+      while(true) {
+          setPixel(x0, y0);
+          if ((x0 === x1) && (y0 === y1)) { break };
+
+          var e2 = 2 * err;
+          if (e2 > -dy) { err -= dy; x0  += sx; }
+          if (e2 < dx) { err += dx; y0  += sy; }
+      }
+      // ctx.putImageData(imgData, 0, 0);
+    }
+
+    function emitLine(x0, y0, x1, y1) {
+      msg = {
+        color: globColor,
+        x0: x0,
+        y0: y0,
+        x1: x1,
+        y1: y1
+      }
+      socket.emit('line', msg);
+    }
+
+    /* First getting shedevres of others (server's buffer) */
+    socket.on('Your first massive', (frame) => {
+      frame;
+      for (i = 0; i < imgData.data.length; i += 4) {
+        color = frame[i / 4];
+        imgData.data[i+0] = color.r;
+        imgData.data[i+1] = color.g;
+        imgData.data[i+2] = color.b;
+        imgData.data[i+3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }) /* End of socket on */
+    socket.on('Draw line', msg => {
+      drawLine(msg.x0, msg.y0, msg.x1, msg.y1);
+    })
+
+    /* Initialization  */    
+    for (i = 0; i < imgData.data.length; i++) {
+      imgData.data[i] = 255;
+    }
+    img[0] = globColor.r;
+    img[1] = globColor.g;
+    img[2] = globColor.b;
+    img[3] = globColor.a;
+
+    ctx.putImageData(imgData, 0, 0);
+    /* End of init */
+
+
+    /* mouceDown canvas function */
+    function mouseDown(event) {
+      var x = event.pageX - event.target.offsetLeft,
+        y = event.pageY - event.target.offsetTop;
+      lastX = x;
+      lastY = y;
+      isdrawing = true
+    } /* End of mouseDown */
+
+    /* mouseMove canvas function */
+    function mouseMove(event) {
+      var x = event.pageX - event.target.offsetLeft,
+        y = event.pageY - event.target.offsetTop;
+      if (isdrawing) {
+        emitLine(lastX, lastY, x, y);
+        lastX = x;
+        lastY = y;
+      }
+    } /* End of mouseMove function */
+
+    /* mouseUp canvas function */
+    function mouseUp() {
+    if (isdrawing && event.button == 0) {
+        isdrawing = false;
+      }
+    } /* End of mouseUp */
+
+    msg = {
+      w: globW,
+      h: globH
+    }
+    socket.emit('Am I first to create', msg);
+  </script>
+</body>
+</html>
