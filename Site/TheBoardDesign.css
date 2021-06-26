@@ -1,0 +1,271 @@
+/* Do not forget to apply single color to all
+element's borders */
+
+/* border-style: groove looks better than solid */
+:root{
+  --main-color: red;
+  --support-color: orange;
+  --border-width:20px;
+
+}
+
+body{
+    margin: 0px;
+}
+
+/* Canvas style */
+#drawfield {
+    width: calc(80% - 10px);
+    height: calc(90% - 10px);
+    position:fixed;
+    left:0%;
+    top:0%;
+    background-color: white;
+
+}
+
+.gradient-border {
+  position:fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: Lato, sans-serif;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  background: none;
+  border-radius: var(--border-width);
+  z-index: -1;
+  width: calc(80%);
+  height: calc(90%);
+  position:fixed;
+}
+  .gradient-border:after {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(200% + var(--border-width) * 2);
+    height: calc(200% + var(--border-width) * 2);
+    background: linear-gradient(
+      60deg,
+      hsl(224, 85%, 66%),
+      hsl(269, 85%, 66%),
+      hsl(314, 85%, 66%),
+      hsl(359, 85%, 66%),
+      hsl(44, 85%, 66%),
+      hsl(89, 85%, 66%),
+      hsl(134, 85%, 66%),
+      hsl(179, 85%, 66%)
+    );
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    animation: moveGradient 4s alternate infinite;
+  }
+
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* User interface style */
+#user_interface_background{
+    position:fixed;
+    right: 0%;
+    top: 0%;
+    justify-content: center;
+    width: calc(20%);
+    min-width: 80px;
+    height: 100%;
+    background-image: linear-gradient(to  right, var(--main-color), var(--support-color));
+}
+
+
+
+#user_interface {
+    position:fixed;
+    right: 0%;
+    top: 0%;
+
+    width: 20%;
+    height: 80%;
+    
+    background: none;  
+    z-index: -1;
+  }
+/* 3 Additionals buttons in right bottom corner */
+#exit_btn {
+    position: fixed;
+    right: 0%;
+    bottom: 0%;
+    width: 20%;     
+    height: 20%;
+    background: none;
+  }
+
+#users{
+    position: fixed;
+    left: 0%;
+    bottom: 0%;
+    width: calc(80%);
+    height: 10%;
+    z-index: -1;
+    background-image:  linear-gradient(to right, var(--support-color), var(--main-color));
+
+  }
+
+
+ .additional_btn {
+   background: none;
+   color: #fff;
+   z-index: 1;
+   width: 100%;
+   height: 33.33333%;
+   border:none;
+   font-size: x-large;
+   color:#000!important;
+   text-shadow: 1px 0 1px #fff, 
+   0 1px 1px #fff, 
+   -1px 0 1px #fff, 
+   0 -1px 1px #fff;
+}
+ .additional_btn:after {
+   position: absolute;
+   content: "";
+   width: 0;
+   height: 100%;
+   top: 0;
+   right: 0;
+   z-index: -1;
+   background-image:  linear-gradient(to right, var(--main-color), black, rgba(0, 0, 0, 0));
+   transition: all 0.3s ease;
+ }
+ .additional_btn:hover {
+   color: #000;
+ }
+ .additional_btn:hover:after {
+   left: 0;
+   width: 100%;
+ }
+ .additional_btn:active {
+   top: 2px;
+ }
+ 
+#btn1{
+    position: absolute;
+    top: 0%;
+    background: none;    
+}
+
+#btn2{
+    position: absolute;
+    top: 33.33333%;
+    background: none;    
+
+}
+
+#btn3{
+    position: absolute;
+    top: calc(2 * 33.33333%);
+    /*background: none;    */
+    background:none;
+  }
+
+/* Modal*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+  
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+  
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+  
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5FD2B5;
+    color: #FF6C00;
+    text-align: left;
+  }
+  
+  .modal-body {
+    padding: 2px 16px;
+    font-size: large;
+    background-image: linear-gradient(to bottom, #5FD2B5, #61D89F);
+    text-align: left;
+  }
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #61D89F;
+    color: white;
+  }
+
+  #accept{
+    position:absolute;
+    height: 30%;
+    top: 10%;
+    border-radius: 8px;
+    background-color: #00B945;
+    right: 10%;
+  }
+
+  #reject{
+    position:absolute;
+    height: 30%;
+    right: 10%;
+    bottom: 10%;
+    border-radius: 8px;
+    background-color: #FF2C00;
+
+  }

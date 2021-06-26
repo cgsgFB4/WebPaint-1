@@ -1,0 +1,84 @@
+<!--
+  (c) copyright CGSG summer practice 2021
+  web paint by AC1 and FB4
+-->
+
+<html>
+
+<head>
+  <title>OPIE - Online Paint Image Editor</title>
+  <link rel="stylesheet" href="TheBoardDesign.css">
+  <link rel="icon" href="favicon.ico">
+  <script type="text/javascript">
+    function showModal() {
+      let modal = document.getElementById("myModal")
+      modal.style.display = "block";
+    }
+
+    function hideModal() {
+      let modal = document.getElementById("myModal")
+      modal.style.display = "none";
+    }
+
+    function dummyFunc() {
+      alert("click!");
+    }
+
+    function exitFunc() {
+      window.close();
+    }
+
+    function submitColor() {
+      let color = '#000';
+
+
+    }
+  </script>
+
+  <script>
+    function userShowInfo() {
+    }
+
+  </script>
+
+</head>
+
+
+<body>
+  <div class="gradient-border"></div>
+  <canvas id="drawfield"></canvas>
+
+  <div id="users"></div>
+
+  <div id="user_interface_background">
+    <div id="user_interface">
+      <div id="minimap"></div>
+
+    </div>
+    <div id="exit_btn">
+      <button id="btn1" class="additional_btn" onclick="dummyFunc()">Click?</button><br>
+      <button id="btn2" class="additional_btn" onclick="dummyFunc()">Info</button><br>
+      <button id="btn3" class="additional_btn" onclick="showModal()">Exit</button>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close" onclick="hideModal()">&times;</span>
+        <h2>Are you sure?</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you realizing the consequences of these actions?</p>
+      </div>
+      <div class="modal-footer">
+
+        <button id="accept" onclick="exitFunc()">Yes, I want to quit</button>
+        <button id="reject" onclick="hideModal()">No, I want to stay</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
