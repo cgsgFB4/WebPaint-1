@@ -45,40 +45,40 @@
 
 
 <body>
-  <div class="gradient-border"></div>
-  <canvas id="drawfield"></canvas>
+  <div id="container">
+    <canvas id="drawfield"></canvas>
 
-  <div id="users"></div>
+    <div id="user_interface_background">
+      <div class="gradient-border"></div>
 
-  <div id="user_interface_background">
-    <div id="user_interface">
-      <div id="minimap"></div>
+      <div id="user_interface">
+        <div id="minimap"></div>
 
+      </div>
+      <div id="exit_btn">
+        <button id="btn1" class="additional_btn" onclick="dummyFunc()">Click?</button><br>
+        <button id="btn2" class="additional_btn" onclick="dummyFunc()">Info</button><br>
+        <button id="btn3" class="additional_btn" onclick="showModal()">Exit</button>
+      </div>
     </div>
-    <div id="exit_btn">
-      <button id="btn1" class="additional_btn" onclick="dummyFunc()">Click?</button><br>
-      <button id="btn2" class="additional_btn" onclick="dummyFunc()">Info</button><br>
-      <button id="btn3" class="additional_btn" onclick="showModal()">Exit</button>
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close" onclick="hideModal()">&times;</span>
+          <h2>Are you sure?</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you realizing the consequences of these actions?</p>
+        </div>
+        <div class="modal-footer">
+
+          <button id="accept" onclick="exitFunc()">Yes, I want to quit</button>
+          <button id="reject" onclick="hideModal()">No, I want to stay</button>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Modal -->
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="close" onclick="hideModal()">&times;</span>
-        <h2>Are you sure?</h2>
-      </div>
-      <div class="modal-body">
-        <p>Are you realizing the consequences of these actions?</p>
-      </div>
-      <div class="modal-footer">
-
-        <button id="accept" onclick="exitFunc()">Yes, I want to quit</button>
-        <button id="reject" onclick="hideModal()">No, I want to stay</button>
-      </div>
-    </div>
-  </div>
-
 </body>
 
 </html>
